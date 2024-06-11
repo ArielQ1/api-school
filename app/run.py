@@ -7,7 +7,7 @@ from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
 
-#JWT
+#JWT 
 app.config['JWT_SECRET_KEY'] = 'tu_clave_secreta_aqui'
 
 #OPENAPI
