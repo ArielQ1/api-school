@@ -1,0 +1,317 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Colegio API",
+        "version": "1.0.0"
+    },
+    "paths":{
+        "/api/students": {
+            "get": {
+                "summary": "Obtiene la Lista de estudiantes",
+                "security":[
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "lista de estudiantes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Student"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crea un estudiante",
+                "security":[
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Student"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Estudiante creado",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/students/{id}":{
+            "get": {
+                "summary": "Obtiene un estudiante por id",
+                "security":[
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required" : true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses":{
+                    "200": {
+                        "description": "Estudiante obtenido",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Estudiante no encontrado"
+                    }
+                }
+            },
+            "put":{
+                "summary": "Actualiza un estudiante por id",
+                "security":[
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required" : true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody":{
+                    "content":{
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Student"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200": {
+                        "description": "Estudiante actualizado",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Estudiante no encontrado"
+                    }
+                }
+            },
+            "delete":{
+                "summary": "Elimina un estudiante por id",
+                "security":[
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required" : true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses":{
+                    "200": {
+                        "description": "Estudiante eliminado"
+                    },
+                    "404":{
+                        "description": "Estudiante no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/register":{
+            "post":{
+                "summary": "Registra un nuevo usuario",
+                "requestBody": {
+                    "content":{
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201": {
+                        "description": "Usuario registrado"
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    }
+                }
+            }
+        },
+        "/api/login":{
+            "post":{
+                "summary": "Inicia sesión con un usuario existente",
+                "requestBody": {
+                    "content":{
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200": {
+                        "description":"Inicio de sesion exitoso",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "properties":{
+                                        "acces_token":{
+                                            "type":"string",
+                                            "description":"Token de acceso JWT para el usuario"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"credenciales invalidas"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes":{
+            "JWTAuth":{
+                "type":"http",
+                "scheme":"bearer",
+                "bearerFormat":"JWT"
+            }
+        },
+        "schemas": {
+            "Student": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "age" : {
+                        "type": "integer"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "school_year" : {
+                        "type": "string"
+                    },
+                    "subjects": {
+                        "type": "array",
+                        "items":{
+                            "type": "string",
+                            "enum":[
+                                "materias"
+                            ]
+                        }
+                    }
+                },
+                "required":[
+                    "name",
+                    "last_name",
+                    "age",
+                    "email",
+                    "school_year",
+                    "subjects"
+                ]
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "username":{
+                        "type": "string"
+                    },
+                    "password":{
+                        "type": "string"
+                    },
+                    "roles":{
+                        "type": "array",
+                        "items":{
+                            "type": "string",
+                            "enum":[
+                                "admin",
+                                "user"
+                            ]
+                        }
+                    }
+                },
+                "required":[
+                    "username",
+                    "password",
+                    "roles"
+                ]
+
+            },
+            "Login":{
+                "type": "object",
+                "properties":{
+                    "username":{
+                        "type": "string"
+                    },
+                    "password":{
+                        "type": "string"
+                    }
+                },
+                "required":[
+                    "username",
+                    "password"
+                ]
+            }
+        }
+    }
+}
