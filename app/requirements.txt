@@ -1,0 +1,8 @@
+flask
+flask_sqlalchemy
+flask_swagger_ui
+flask-jwt-extended
+flask-login
+pytest
+pytest-flask
+gunicorn
