@@ -37,15 +37,15 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-    deploy:
-      runs-on: ubuntu-latest
-      needs: build
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
 
-      steps:
-      - uses: actions/checkout@v4
+    steps:
+    - uses: actions/checkout@v4
 
-      - name: Deploy to DigitalOcean App Platform
-        uses: digitalocean/app_action@v1.1.5
-        with:
-          app_name: lobster-app
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    - name: Deploy to DigitalOcean App Platform
+      uses: digitalocean/app_action@v1.1.5
+      with:
+        app_name: lobster-app
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
